@@ -26,7 +26,7 @@
 #include <RFStream.h>
 #include <common.h>
 #include <devInfo.h>
-
+#include <config.h>
 
 /*****************************************************************************/
 /* Local Definitions ( Constant and Macro )                                  */
@@ -156,7 +156,7 @@ int32 RFStream_Create(RFStreamConfig *streamConfig, int8 *APIKey, int8 *streamUU
         return OSAERR_DEVNOTFOUND;
 
     HTTPComm_CreateDefaultHeader(HTTP_METHOD_POST, CLOUD_RES_TYPE_DATASTREAM, APIKey, deviceID, NULL);
-    pJsonBody = osAdaptionMemoryAlloc(1024);
+    pJsonBody = osAdaptionMemoryAlloc(MALLOC_SIZE);
     if(pJsonBody)
     {
         StreamJsonBodyGen(pJsonBody, streamConfig, STREAMINFO_MASK_ALL);
@@ -217,7 +217,7 @@ int32 RFStream_UpdateInfo(int8 *streamID, int8 *APIKey, RFStreamConfig *streamCo
         return OSAERR_DEVNOTFOUND;
 
     HTTPComm_CreateDefaultHeader(HTTP_METHOD_PUT, CLOUD_RES_TYPE_DATASTREAM, APIKey, deviceID, streamID);
-    pJsonBody = osAdaptionMemoryAlloc(1024);
+    pJsonBody = osAdaptionMemoryAlloc(MALLOC_SIZE);
     if(pJsonBody)
     {
         StreamJsonBodyGen(pJsonBody, streamConfig, updateFlag);

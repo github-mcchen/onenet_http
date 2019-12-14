@@ -25,6 +25,7 @@
 #include <devInfo.h>
 #include <common.h>
 #include <RFTrigger.h>
+#include <config.h>
 /*****************************************************************************/
 /* Local Definitions ( Constant and Macro )                                  */
 /*****************************************************************************/
@@ -210,7 +211,7 @@ int32 RFTrigger_Create(RFTriggerConfig *config, int8 *triggerID)
         return OSAERR;
 
     HTTPComm_CreateDefaultHeader(HTTP_METHOD_POST, CLOUD_RES_TYPE_TRIGGER, APIKey, deviceID, NULL);
-    pJsonBody = osAdaptionMemoryAlloc(1024);
+    pJsonBody = osAdaptionMemoryAlloc(MALLOC_SIZE);
     if(pJsonBody)
     {
         TriggerJsonBodyGen(pJsonBody, config, deviceID);
@@ -264,7 +265,7 @@ int32 RFTrigger_UpdateInfo(int8 *triggerID, RFTriggerConfig *config)
         return OSAERR;
 
     HTTPComm_CreateDefaultHeader(HTTP_METHOD_PUT, CLOUD_RES_TYPE_TRIGGER, APIKey, triggerID, NULL);
-    pJsonBody = osAdaptionMemoryAlloc(1024);
+    pJsonBody = osAdaptionMemoryAlloc(MALLOC_SIZE);
     if(pJsonBody)
     {
         TriggerJsonBodyGen(pJsonBody, config, deviceID);

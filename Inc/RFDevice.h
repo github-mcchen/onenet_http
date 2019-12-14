@@ -49,6 +49,8 @@ extern "C"{
 #define DEVICEINFO_MASK_TAGLIST 0x0008
 /** 更新设备位置信息*/
 #define DEVICEINFO_MASK_LOCATION    0x0010
+/** 更新设备协议信息*/
+#define DEVICEINFO_MASK_PROTOCOL    0x0020
 /** 更新以上所有信息*/
 #define DEVICEINFO_MASK_ALL     0xFFFF
 /**  @} */

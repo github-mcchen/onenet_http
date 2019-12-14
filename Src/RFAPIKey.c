@@ -25,6 +25,7 @@
 #include <devInfo.h>
 #include <common.h>
 #include <RFAPIKey.h>
+#include <config.h>
 
 /*****************************************************************************/
 /* Local Definitions ( Constant and Macro )                                  */
@@ -204,7 +205,7 @@ int32 RFAPIKey_Create(RFAPIKeyInfo *keyInfo)
 
     HTTPComm_CreateDefaultHeader(HTTP_METHOD_POST, CLOUD_RES_TYPE_APIKEY, masterKey, NULL, NULL);
 
-	pJsonBody = osAdaptionMemoryAlloc(1024);
+	pJsonBody = osAdaptionMemoryAlloc(MALLOC_SIZE);
 	assert(pJsonBody);
 	ret = APIKeyJsonBodyGen(pJsonBody, deviceID, keyInfo);
 	if(OSASUCCESS != ret)
@@ -269,7 +270,7 @@ int32 RFAPIKey_UpdateInfo(RFAPIKeyInfo *keyInfo)
 
     HTTPComm_CreateDefaultHeader(HTTP_METHOD_PUT, CLOUD_RES_TYPE_APIKEY, masterKey, keyInfo->key, NULL);
 
-	pJsonBody = osAdaptionMemoryAlloc(1024);
+	pJsonBody = osAdaptionMemoryAlloc(MALLOC_SIZE);
 	assert(pJsonBody);
 	ret = APIKeyJsonBodyGen(pJsonBody, deviceID, keyInfo);
 	if(OSASUCCESS != ret)

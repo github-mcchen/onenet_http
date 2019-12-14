@@ -24,6 +24,7 @@
 #include <HTTPComm.h>
 #include <RFDataPoint.h>
 #include <devInfo.h>
+#include <config.h>
 
 /*****************************************************************************/
 /* Local Definitions ( Constant and Macro )                                  */
@@ -186,7 +187,7 @@ int32 RFDataPoint_Create(int8 *APIKey, RFDataPoint *data, int32 count)
         return OSAERR_DEVNOTFOUND;
 
     HTTPComm_CreateDefaultHeader(HTTP_METHOD_POST, CLOUD_RES_TYPE_DATAPOINT, APIKey, deviceID, NULL);
-    pJsonBody = osAdaptionMemoryAlloc(1024);
+    pJsonBody = osAdaptionMemoryAlloc(MALLOC_SIZE);
     if(pJsonBody)
     {
         DataPointJsonBodyGen(pJsonBody, data, count);

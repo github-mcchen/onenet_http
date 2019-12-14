@@ -26,7 +26,7 @@
 #include <RFDevice.h>
 #include <common.h>
 #include <devInfo.h>
-
+#include <config.h>
 /*****************************************************************************/
 /* Local Definitions ( Constant and Macro )                                  */
 /*****************************************************************************/
@@ -106,7 +106,7 @@ static int32 DeviceJsonBodyGen(int8 *body, RFDeviceConfig *devConfig, uint32 fla
     if(flag & DEVICEINFO_MASK_TAGLIST)
         AddListToJsonArray(pJsonRoot, "tags", devConfig->deviceTagList);
 
-	//if(flag & DEVICEINFO_MASK_PROTOCOL)
+	if(flag & DEVICEINFO_MASK_PROTOCOL)
 		cJSON_AddStringToObject(pJsonRoot, "protocol", "HTTP");
 
 	p = (uint8 *)(cJSON_Print(pJsonRoot));
@@ -301,14 +301,14 @@ int32 RFDevice_Create(RFDeviceConfig *devConfig, int8 *deviceID)
 
     HTTPComm_CreateDefaultHeader(HTTP_METHOD_POST, CLOUD_RES_TYPE_DEVICE, devConfig->APIKey, NULL, NULL);
 
-	pJsonBody = osAdaptionMemoryAlloc(1024);
+	pJsonBody = osAdaptionMemoryAlloc(MALLOC_SIZE);
 	assert(pJsonBody);
 	ret = DeviceJsonBodyGen(pJsonBody, devConfig, DEVICEINFO_MASK_ALL);
 	if(OSASUCCESS != ret)
 		return ret;
 
     ret = OSAERR;
-    HTTPComm_Connect("api.heclouds.com", 80);
+    HTTPComm_Connect(SERVER_ADDR, SERVER_PORT);
     pRespBody = HTTPComm_Process(pJsonBody, strlen((const char *)pJsonBody), NULL);
     if(pRespBody)
     {
@@ -365,7 +365,7 @@ int32 RFDevice_UpdateInfo(RFDeviceConfig *devConfig, uint32 updateFlag)
 
     HTTPComm_CreateDefaultHeader(HTTP_METHOD_PUT, CLOUD_RES_TYPE_DEVICE, devConfig->APIKey, deviceID, NULL);
 
-	pJsonBody = osAdaptionMemoryAlloc(1024);
+	pJsonBody = osAdaptionMemoryAlloc(MALLOC_SIZE);
 	assert(pJsonBody);
 	ret = DeviceJsonBodyGen(pJsonBody, devConfig, updateFlag);
 	if(OSASUCCESS != ret)
@@ -461,14 +461,14 @@ int32 RFDevice_Delete(int8 *APIKey)
 
     HTTPComm_CreateDefaultHeader(HTTP_METHOD_DELETE, CLOUD_RES_TYPE_DEVICE, APIKey, deviceID, NULL);
 
-    HTTPComm_Connect("api.heclouds.com", 80);
+    HTTPComm_Connect(SERVER_ADDR, SERVER_PORT);
     pRespBody = HTTPComm_Process(NULL, 0, NULL);
     if(pRespBody)
     {
-        pResp = cJSON_Parse(pRespBody);
+        pResp = cJSON_Parse((const int8*)pRespBody);
         if(pResp)
         {
-            pSub = cJSON_GetObjectItem(pResp, "errno");
+            pSub = cJSON_GetObjectItem(pResp, (const int8*)"errno");
             if(pSub && (0 == pSub->valueint))
             {
                 ret = OSASUCCESS;
