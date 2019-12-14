@@ -103,15 +103,20 @@ static void DataPointJsonBodyAddPoint(cJSON *item, RFDataPoint *data)
     int8 *tmp = NULL;
     cJSON *value = NULL;
     struct tm *t = NULL;
-
+	long time_tmp;
     value = cJSON_CreateObject();
     if(value)
     {
         if(0 != data->time)
         {
-            t = localtime((time_t *)(&(data->time)));
-            sprintf(timeStr, "%d-%02d-%02dT%02d:%02d:%02d", (1900 + t->tm_year), (t->tm_mon + 1), t->tm_mday, t->tm_hour, t->tm_min, t->tm_sec);
-            cJSON_AddStringToObject(value, "at", timeStr);
+			time_tmp = data->time;
+            t = localtime((time_t *)(&time_tmp));
+ 			if (!t)
+ 			{
+ 				return;
+ 			}
+            sprintf(timeStr, "%d-%02d-%02dT%02d:%02d:%02d", (1900 + t->tm_year), (t->tm_mon + 1), t->tm_mday, t->tm_hour, t->tm_min, t->tm_sec);			
+			cJSON_AddStringToObject(value, "at", timeStr);
         }
         if(DATAPOINT_VALUE_TYPE_STRING == data->valueType)
             cJSON_AddStringToObject(value, "value", data->value);
