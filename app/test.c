@@ -20,8 +20,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
-#include<sys/time.h>
 #include <osAdaption/OSAErrno.h>
 #include <RFDevice.h>
 #include <RFStream.h>
@@ -29,6 +27,7 @@
 #include <RFAPIKey.h>
 #include <RFDeviceDetails.h>
 #include <RFTrigger.h>
+#include <time.h>
 #include <unistd.h>
 /*****************************************************************************/
 /* Local Definitions ( Constant and Macro )                                  */
