@@ -32,9 +32,9 @@
 /*****************************************************************************/
 /* Local Definitions ( Constant and Macro )                                  */
 /*****************************************************************************/
-#define DEVICE_TITLE ""
-#define MASTER_KEY ""
-#define TAGLIST	""
+#define DEVICE_TITLE "heart"
+#define MASTER_KEY "JaPCWRSVphmM=CidVaPdq50HlIA="
+#define TAGLIST	"01"
 
 
 /*****************************************************************************/
@@ -68,7 +68,7 @@ int main(int argc, char **argv[])
     RFDeviceConfig config;
     RFStreamConfig sConfig;
     RFDeviceDetails details;
-    RFDataPoint data[5];
+    RFDataPoint data[8];
     RFAPIKeyInfo apiKey;
 	RFTriggerConfig tConfig;
     RFAPIKeyInfo *testInfo = NULL;
